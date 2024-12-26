@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photography Ordering System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+
+       .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 7fr 3fr;
+            gap: 20px;
+        }
+
+       .package-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+       .cart-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+       .package-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+       .package-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+       .package-item:hover {
+            transform: translateY(-5px);
+        }
+
+       .package-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+       .package-item-content {
+            padding: 15px;
+        }
+
+       .package-item-title {
+            font-size: 1.2em;
+            margin-bottom: 8px;
+        }
+
+       .package-item-price {
+            color: #e44d26;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+       .add-to-cart {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+       .add-to-cart:hover {
+            background: #45a049;
+        }
+
+       .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+       .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+       .quantity-btn {
+            background: #ddd;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+       .cart-total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            text-align: right;
+        }
+
+       .place-order {
+            background: #e44d26;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            transition: background 0.2s;
+        }
+
+       .place-order:hover {
+            background: #d44122;
+        }
+
+        @media (max-width: 768px) {
+           .container {
+                grid-template-columns: 1fr;
+            }
+
+           .cart-section {
+                position: static;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="package-section">
+        <h2>Photography Packages</h2>
+        <div class="package-grid" id="packageGrid">
+            <!-- Package items will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <div class="cart-section">
+        <h2>Your Order</h2>
+        <div id="cartItems">
+            <!-- Cart items will be populated by JavaScript -->
+        </div>
+        <div class="cart-total">
+            <h3>Total: <span id="cartTotal">$0.00</span></h3>
+        </div>
+        <button class="place-order" onclick="placeOrder()">Place Order</button>
+    </div>
+</div>
+
+<script>
+    const photographyPackages = [
+        { id: 1, name: 'Portrait Package', price: 129.99, image: 'images/photo/3.jpg' },
+        { id: 2, name: 'Landscape Package', price: 189.99, image: 'images/photo/3.jpg' },
+        { id: 3, name: 'Event Package', price: 249.99, image: 'images/photo/2.jpg' },
+        { id: 4, name: 'Wedding Package', price: 599.99, image: 'images/photo/2.jpg' },
+        { id: 5, name: 'Product Package', price: 99.99, image: 'images/photo/1.jpg' },
+        { id: 6, name: 'Family Package', price: 169.99, image: 'images/photo/1.jpg' }
+    ];
+
+    let cart = [];
+
+    // Initialize photography packages
+    function initPackages() {
+        const packageGrid = document.getElementById('packageGrid');
+        photographyPackages.forEach(packageItem => {
+            const packageElement = document.createElement('div');
+            packageElement.className = 'package-item';
+            packageElement.innerHTML = `
+                <img src="${packageItem.image}" alt="${packageItem.name}">
+                <div class="package-item-content">
+                    <h3 class="package-item-title">${packageItem.name}</h3>
+                    <p class="package-item-price">$${packageItem.price.toFixed(2)}</p>
+                    <button class="add-to-cart" onclick="addToCart(${packageItem.id})">Add to Cart</button>
+                </div>
+            `;
+            packageGrid.appendChild(packageElement);
+        });
+    }
+
+    // Add item to cart
+    function addToCart(itemId) {
+        const item = photographyPackages.find(item => item.id === itemId);
+        const cartItem = cart.find(cartItem => cartItem.id === itemId);
+
+        if (cartItem) {
+            cartItem.quantity++;
+        } else {
+            cart.push({...item, quantity: 1 });
+        }
+
+        updateCart();
+    }
+
+    // Update cart display
+    function updateCart() {
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        cartItems.innerHTML = '';
+
+        let total = 0;
+        cart.forEach(item => {
+            const cartItem = document.createElement('div');
+            cartItem.className = 'cart-item';
+            cartItem.innerHTML = `
+                <span>${item.name}</span>
+                <div class="cart-item-quantity">
+                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                    <span>${item.quantity}</span>
+                    <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+            `;
+            cartItems.appendChild(cartItem);
+            total += item.price * item.quantity;
+        });
+
+        cartTotal.textContent = `$${total.toFixed(2)}`;
+    }
+
+    // Update item quantity
+    function updateQuantity(itemId, newQuantity) {
+        if (newQuantity < 1) {
+            cart = cart.filter(item => item.id!== itemId);
+        } else {
+            const item = cart.find(item => item.id === itemId);
+            if (item) {
+                item.quantity = newQuantity;
+            }
+        }
+        updateCart();
+    }
+
+    // Place order
+    function placeOrder() {
+        if (cart.length === 0) {
+            alert('Please add items to your cart first!');
+            return;
+        }
+        alert('Order placed successfully!');
+        cart = [];
+        updateCart();
+    }
+
+    // Initialize the packages when the page loads
+    window.onload = initPackages;
+</script>
+</body>
+
+</html>
+

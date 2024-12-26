@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destinations - Explore World</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>Explore World</h1>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="guides.html">Travel Guides</a></li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="destinations-page">
+        <section class="destinations-hero">
+            <div class="hero-content">
+                <h1>Explore World's Beautiful Places</h1>
+                <p>Discover amazing destinations and start your next adventure</p>
+            </div>
+        </section>
+
+        <section class="destination-filters">
+            <div class="filter-container">
+                <div class="search-box">
+                    <input type="text" placeholder="Search destinations..." id="searchDestination">
+                </div>
+                <div class="filter-options">
+                    <select id="regionFilter">
+                        <option value="">All Regions</option>
+                        <option value="asia">Asia</option>
+                        <option value="europe">Europe</option>
+                        <option value="americas">Americas</option>
+                        <option value="oceania">Oceania</option>
+                        <option value="africa">Africa</option>
+                    </select>
+                    <select id="typeFilter">
+                        <option value="">All Categories</option>
+                        <option value="nature">Nature</option>
+                        <option value="culture">Culture</option>
+                        <option value="adventure">Adventure</option>
+                        <option value="leisure">Leisure</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="destinations-grid">
+            <!-- Destination cards will be loaded dynamically via JS -->
+        </section>
+
+        <section class="featured-experiences">
+            <h2>Featured Experiences</h2>
+            <div class="experiences-container">
+                <div class="experience-card">
+                    <img src="images/destinations/hiking.jpg" alt="Hiking">
+                    <div class="experience-content">
+                        <h3>Hiking Adventures</h3>
+                        <p>Explore magnificent mountains and experience nature's beauty</p>
+                    </div>
+                </div>
+                <div class="experience-card">
+                    <img src="images/destinations/island.jpg" alt="Island Vacation">
+                    <div class="experience-content">
+                        <h3>Island Getaways</h3>
+                        <p>Enjoy sun, beach, and relaxation</p>
+                    </div>
+                </div>
+                <div class="experience-card">
+                    <img src="images/destinations/city.jpg" alt="City Exploration">
+                    <div class="experience-content">
+                        <h3>City Exploration</h3>
+                        <p>Experience the blend of modern life and historical culture</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Explore World is your trusted travel partner, providing the best travel information and services.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: contact@explore.com</p>
+                <p>Phone: 400-123-4567</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" class="social-icon">WeChat</a>
+                    <a href="#" class="social-icon">Weibo</a>
+                    <a href="#" class="social-icon">TikTok</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Explore World. All rights reserved</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/destinations.js"></script>
+</body>
+</html> 
